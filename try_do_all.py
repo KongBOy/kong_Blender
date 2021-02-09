@@ -18,13 +18,15 @@ def get_rotation_around_axis_randomly(dist_range, x_rotate_range, z_rotate_range
     z_rotate_rand = random.uniform(math.radians(z_rotate_range[0]), math.radians(z_rotate_range[1]))
     print("x_rotate_range:", x_rotate_range, ", z_rotate_range:", z_rotate_range)
     print("x_rotate_rand:", math.degrees(x_rotate_rand), ", z_rotate_rand", math.degrees(z_rotate_rand))
-    posi = Vector((0, dist, 0))     ### 設定 Blender 用的 Vector
-    x_eul  = Euler((0, 0, 0), 'XYZ')  ### 設定 Blender 用的 Euler，x,z要分開，要不然共用的話，轉x軸的同時z軸也會跟著變喔！舉例 假如z轉90度，原本的x軸就變y軸了
-    z_eul  = Euler((0, 0, 0), 'XYZ')  ### 設定 Blender 用的 Euler，同上裡
+
+    posi = Vector((0, dist, 0))            ### 設定 Blender 用的 Vector
+    x_eul  = Euler((0, 0, 0), 'XYZ')       ### 設定 Blender 用的 Euler，x,z要分開，要不然共用的話，轉x軸的同時z軸也會跟著變喔！舉例 假如z轉90度，原本的x軸就變y軸了
     x_eul.rotate_axis('X', x_rotate_rand)  ### 以X軸為旋轉軸， 隨機在x_rotate_range[0]~x_rotate_range[1]度 旋轉(Y軸往右指 Z軸往上指，X軸往我們方向穿出時，以X為軸心 逆時鐘方向旋轉)
+    z_eul  = Euler((0, 0, 0), 'XYZ')       ### 設定 Blender 用的 Euler，同上裡
     z_eul.rotate_axis('Z', z_rotate_rand)  ### 以Z軸為旋轉軸， 隨機在z_rotate_range[0]~z_rotate_range[0]度 旋轉(X軸往右指 Y軸往上指，Z軸往我們方向穿出時，以Z為軸心 逆時鐘方向旋轉)
-    posi.rotate(z_eul)                     ### 在Blender內把上面的操作換算成相對應的 (x,y,z) 座標，print不出來喔 因為是專門給Blender用的物件，要blender --python try_do.py 才看的到
+    ### 注意順序有差！要先 轉x 再轉z
     posi.rotate(x_eul)                     ### 在Blender內把上面的操作換算成相對應的 (x,y,z) 座標，print不出來喔 因為是專門給Blender用的物件，要blender --python try_do.py 才看的到
+    posi.rotate(z_eul)                     ### 在Blender內把上面的操作換算成相對應的 (x,y,z) 座標，print不出來喔 因為是專門給Blender用的物件，要blender --python try_do.py 才看的到
     return posi, dist
     # eul  = Euler((0, 0, 0), 'XYZ')  ### 設定 Blender 用的 Euler
     # ### 很重要，轉一定要注意順序 先Z 再X！反過來不相等喔！
@@ -54,10 +56,10 @@ def step_0_prepare_rendersettings():
     # bpy.ops.object.select_all(action='DESELECT')
     scene = bpy.data.scenes['Scene']
     scene.cycles.device = 'CPU'
-    scene.render.resolution_x = 448
-    scene.render.resolution_y = 448
+    scene.render.resolution_x = int(1080 * 0.7)
+    scene.render.resolution_y = int(1080 * 0.7)
     scene.render.resolution_percentage = 100
-    scene.cycles.samples = 128
+    scene.cycles.samples = 1
     scene.cycles.use_square_samples = False
 
 
@@ -72,8 +74,8 @@ def step_1_get_obj_and_set_init_position(obj_path):
 
 def step2_add_lighting(env_paths, point_light_rate=1.0):
     if random.random() <= point_light_rate:  # point light
-        litpos, _ = get_rotation_around_axis_randomly(dist_range=(3, 5), x_rotate_range=(0, 180), z_rotate_range=(45, 135))
         ###############################################################################################################################
+        litpos, _ = get_rotation_around_axis_randomly(dist_range=(3, 5), x_rotate_range=(90, 90 + 45), z_rotate_range=(0, 360))
         ### Lamp物件
         bpy.ops.object.add(type='LAMP', location=litpos)  ### 建立 lamp物件
         lamp = bpy.data.lamps[0]                          ### 把建立的 lamp物件 抓出來
@@ -130,32 +132,9 @@ def step2_add_lighting(env_paths, point_light_rate=1.0):
 def step3_reset_camera():
     # bpy.ops.object.select_all(action='DESELECT')
     camera = bpy.data.objects['Camera']
-    bpy.data.cameras['Camera'].lens = random.randint(25, 30)  ### ### focal length
+    bpy.data.cameras['Camera'].lens = random.randint(40, 43)  ### ### focal length
     # cam position ### 原始 ### dist_range=(2.3, 3.3), x_rotate_range(90 - 30, 90 + 30), z_rotate_range=(0, 360)
-    campos, dist = get_rotation_around_axis_randomly(dist_range=(0.4, 0.5), x_rotate_range=(90 - 30 , 90 + 30), z_rotate_range=(0, 360))
-    # campos, dist = get_rotation_around_axis_randomly(dist_range=(0.4, 0.5), x_rotate_range=(0 , 0), z_rotate_range=(0, 0))
-    # campos, dist = get_rotation_around_axis_randomly(dist_range=(0.4, 0.5), x_rotate_range=(90 , 90), z_rotate_range=(0, 0))
-    # campos, dist = get_rotation_around_axis_randomly(dist_range=(0.4, 0.5), x_rotate_range=(90 , 90), z_rotate_range=(90, 90))
-    # campos, dist = get_rotation_around_axis_randomly(dist_range=(0.4, 0.5), x_rotate_range=(0 , 0), z_rotate_range=(90, 90))
-
-    # campos, dist = get_rotation_around_axis_randomly(dist_range=(0.4, 0.5), x_rotate_range=(0  , 0), z_rotate_range=(0, 0))
-    # campos, dist = get_rotation_around_axis_randomly(dist_range=(0.4, 0.5), x_rotate_range=(45 , 45), z_rotate_range=(0, 0))
-    # campos, dist = get_rotation_around_axis_randomly(dist_range=(0.4, 0.5), x_rotate_range=(90 , 90), z_rotate_range=(0, 0))
-    # campos, dist = get_rotation_around_axis_randomly(dist_range=(0.4, 0.5), x_rotate_range=(135, 135), z_rotate_range=(0, 0))
-    # campos, dist = get_rotation_around_axis_randomly(dist_range=(0.4, 0.5), x_rotate_range=(180, 180), z_rotate_range=(0, 0))
-
-    # campos, dist = get_rotation_around_axis_randomly(dist_range=(0.4, 0.5), z_rotate_range=(0  , 0), x_rotate_range=(0, 0))
-    # campos, dist = get_rotation_around_axis_randomly(dist_range=(0.4, 0.5), z_rotate_range=(45 , 45), x_rotate_range=(0, 0))
-    # campos, dist = get_rotation_around_axis_randomly(dist_range=(0.4, 0.5), z_rotate_range=(90 , 90), x_rotate_range=(0, 0))
-    # campos, dist = get_rotation_around_axis_randomly(dist_range=(0.4, 0.5), z_rotate_range=(135, 135), x_rotate_range=(0, 0))
-    # campos, dist = get_rotation_around_axis_randomly(dist_range=(0.4, 0.5), z_rotate_range=(180, 180), x_rotate_range=(0, 0))
-
-    # campos, dist = get_rotation_around_axis_randomly(dist_range=(0.4, 0.5), z_rotate_range=(90 , 90), x_rotate_range=(0, 0))
-    # campos, dist = get_rotation_around_axis_randomly(dist_range=(0.4, 0.5), z_rotate_range=(90 , 90), x_rotate_range=(20, 0))
-    # campos, dist = get_rotation_around_axis_randomly(dist_range=(0.4, 0.5), z_rotate_range=(90 , 90), x_rotate_range=(40, 0))
-    # campos, dist = get_rotation_around_axis_randomly(dist_range=(0.4, 0.5), z_rotate_range=(90 , 90), x_rotate_range=(60, 0))
-    # campos, dist = get_rotation_around_axis_randomly(dist_range=(0.4, 0.5), z_rotate_range=(90 , 90), x_rotate_range=(80, 0))
-
+    campos, dist = get_rotation_around_axis_randomly(dist_range=(0.4, 0.5), x_rotate_range=(90, 90 + 30), z_rotate_range=(0, 360))
     camera.location = campos
 
     # look at pos
@@ -163,14 +142,15 @@ def step3_reset_camera():
     # lookat = Vector((random.uniform(-st, st), random.uniform(-st, st), 0))
     lookat = Vector((0, 0, 0))  ### 先簡單的固定看原點
     eul = Euler((0, 0, 0), 'XYZ')  ### 這個eul 就要 x,y 共用了！get_rotation_around_axis_randomly 不一樣喔！
-    eul.rotate_axis('X', math.atan2(lookat.y - campos.y, campos.z))  ### 以x軸為軸心(forward向我們)轉的正方向 和 我們要轉的方向 相反 -(cam-look)
-    eul.rotate_axis('Y', math.atan2(campos.x - lookat.x, campos.z))  ### 以y軸為軸心(forward向我們)轉的正方向 和 我們要轉的方向 相同   cam-look
-    # st = (dist - 2.3) / 1.0 * 15 + 5.                              ### 覺得目前先不用 以z軸為軸心 來轉
+    x_angle = math.atan2(lookat.y - campos.y, campos.z)  ### 正方向 和 我們要轉的方向 相反 -(cam-look)
+    y_angle = math.atan2(campos.x - lookat.x, campos.z)  ### 正方向 和 我們要轉的方向 相同   cam-look
+    eul.rotate_axis('X', x_angle)  ### 以x軸為軸心(forward向我們)轉的正方向 和 我們要轉的方向 相反 -(cam-look)
+    eul.rotate_axis('Y', y_angle)  ### 以y軸為軸心(forward向我們)轉的正方向 和 我們要轉的方向 相同   cam-look
+    # st = (dist - 2.3) / 1.0 * 15 + 5.  ### 覺得目前先不用 以z軸為軸心 來轉，有餘力再寫
     # eul.rotate_axis('Z', random.uniform(math.0(-90 - st), math.radians(-90 + st)))
-    print("lookat", lookat)
-    print("campos", campos)
-    print("lookat.y - campos.y", lookat.y - campos.y, ", math.atan2(lookat.y - campos.y, campos.z)", math.atan2(lookat.y - campos.y, campos.z))
-    print("campos.x - lookat.x", campos.x - lookat.x, ", math.atan2(campos.x - lookat.x, campos.z)", math.atan2(campos.x - lookat.x, campos.z))
+
+    print("lookat.y - campos.y", lookat.y - campos.y, ", x_angle", x_angle)
+    print("campos.x - lookat.x", campos.x - lookat.x, ", y_angle", y_angle)
     print("eul", eul)
 
     camera.rotation_euler = eul
@@ -287,20 +267,21 @@ def step5_render_pass(out_path, save_blend=False):
 
     bpy.data.scenes["Scene"].frame_current += 1  ### frame_index更新 給下次 Render用
 
-
-env_dir = r"L:\Working\2 Blender\data_dir\0_ord\env"
+# disk_index = "L" ### 127.35
+disk_index = "H" ### HP820G1
+env_dir = disk_index + r":\Working\2 Blender\data_dir\0_ord\env"
 env_names = [env_name for env_name in os.listdir(env_dir) if ".hdr" in env_name]
 env_paths = [env_dir + "/" + env_name for env_name in env_names]
 # print(env_paths)
 
 
-tex_dir = r"L:\Working\2 Blender\data_dir\0_ord\tex"
+tex_dir = disk_index + r":\Working\2 Blender\data_dir\0_ord\tex"
 tex_names = [tex_name for tex_name in os.listdir(tex_dir) if ".jpg" in tex_name]
 tex_paths = [tex_dir + "/" + tex_name for tex_name in tex_names]
 print(tex_paths)
 
 
-obj_dir = r"L:\Working\3 RealScene_to_Blender\analyze2_image_uv_wc\result_smooth_Lamp_Camera_RenderLayer_ok"
+obj_dir = disk_index + r":\Working\3 RealScene_to_Blender\analyze2_image_uv_wc\result_smooth_Lamp_Camera_RenderLayer_ok"
 obj_names = ["try1_triangle_uv1_unwarp_small",
          "try1_triangle_uv2_unwarp_big",
          "try1_triangle_uv3_project_from_view",
@@ -314,20 +295,22 @@ obj_paths = [obj_dir + "/" + obj_name + "/" + obj_name + "_remove_node.obj" for 
 if __name__ == "__main__":
     # blender --python try_do.py
     # out_path = obj_dir + "/" + obj_names[0]
-    out_path = r"C:\Users\TKU\Desktop\temp"
+    # out_path = r"C:\Users\TKU\Desktop\temp"
+    out_path = r"C:\Users\HP820G1\Desktop\temp"
 
-    for obj_path in obj_paths[:1]:
-        print("obj_path~~~", obj_path)
+    obj_path = obj_paths[0]
+    print("obj_path~~~", obj_path)
+    # for obj_path in obj_paths[:]:
+    for _ in range(1):
         step_0_remove_default_object()   # 刪掉Blender預設的 Cubic 和 Lamp 之類的東西
         step_0_prepare_scene()           # 設定 基礎環境
         step_0_prepare_rendersettings()  # 設定 Render參數
 
         mesh_ob = step_1_get_obj_and_set_init_position(obj_path=obj_path)  # 把物件放平
 
-        step2_add_lighting(env_paths, point_light_rate=1.0)
+        step2_add_lighting(env_paths, point_light_rate=0.75)
         step3_reset_camera()
         step4_page_texture_1_image_and_uv_material(mesh_ob, tex_paths)
         step4_page_texture_2_wc_material(mesh_ob)
         step5_render_pass(out_path, save_blend=True)
-
 
