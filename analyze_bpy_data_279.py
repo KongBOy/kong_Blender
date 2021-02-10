@@ -116,3 +116,8 @@ scene.render.layers["RenderLayer"]
 'material_override', 
 'name', 'pass_alpha_threshold', 'rna_type', 'samples', 'update_render_passes', 'use', 'use_all_z', 'use_ao', 'use_edge_enhance', 'use_freestyle', 'use_halo', 'use_pass_ambient_occlusion', 'use_pass_color', 'use_pass_combined', 'use_pass_diffuse', 'use_pass_diffuse_color', 'use_pass_diffuse_direct', 'use_pass_diffuse_indirect', 'use_pass_emit', 'use_pass_environment', 'use_pass_glossy_color', 'use_pass_glossy_direct', 'use_pass_glossy_indirect', 'use_pass_indirect', 'use_pass_material_index', 'use_pass_mist', 'use_pass_normal', 'use_pass_object_index', 'use_pass_reflection', 'use_pass_refraction', 'use_pass_shadow', 'use_pass_specular', 'use_pass_subsurface_color', 'use_pass_subsurface_direct', 'use_pass_subsurface_indirect', 'use_pass_transmission_color', 'use_pass_transmission_direct', 'use_pass_transmission_indirect', 
 'use_pass_uv', 'use_pass_vector', 'use_pass_z', 'use_sky', 'use_solid', 'use_strand', 'use_zmask', 'use_ztransp']
+
+
+
+bpy.context.scene.objects
+['active', 'bl_rna', 'find', 'foreach_get', 'foreach_set', 'get', 'items', 'keys', 'link', 'rna_type', 'unlink', 'values']
