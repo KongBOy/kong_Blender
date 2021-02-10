@@ -171,8 +171,8 @@ def step4_page_texture_1_image_and_uv_material(mesh_ob, tex_paths):
     bsdf_node = nodes.new(type='ShaderNodeBsdfDiffuse')
     texture_node = nodes.new(type='ShaderNodeTexImage')
     ### 設定 Material node
-    idx = random.randint(0, len(tex_paths) - 1)             ### 隨機取一個 env_index
-    tex_path = tex_paths[idx]                               ### 隨機取一個 env_path
+    idx = random.randint(0, len(tex_paths) - 1)             ### 隨機取一個 tex_index
+    tex_path = tex_paths[idx]                               ### 隨機取一個 tex_path
     print("tex_path", tex_path)
     texture_node.image = bpy.data.images.load(tex_path)     ### 把 
 
@@ -184,6 +184,9 @@ def step4_page_texture_1_image_and_uv_material(mesh_ob, tex_paths):
     texture_node.extension = 'EXTEND'
     texturecoord_node = nodes.new(type='ShaderNodeTexCoord')
     links.new(texture_node.inputs[0], texturecoord_node.outputs[2])
+
+
+
 
 def step4_page_texture_2_wc_material(mesh_ob):
     bpy.ops.object.material_slot_add()
@@ -215,6 +218,7 @@ def step5_render_pass(out_path, save_blend=False):
 
     rlayer_wc = render_layers.new("wc")                     ### "wc"_RenderLayer 的建立
     rlayer_wc.material_override = bpy.data.materials["wc"]  ### "wc"_RenderLayer 套用 "wc"_Material
+    rlayer_wc.use_sky = False
     #############################################################################################################
     ### Render Nodes ( Render方面的node藏在 Scene物件裡喔！bpy.data.scenes['Scene'].node_tree.nodes/links)
     scene.use_nodes = True                                 ### Render方面的node藏在 Scene物件裡喔！ 先抓出 Scene 並使用node 模式 來設定
@@ -234,7 +238,7 @@ def step5_render_pass(out_path, save_blend=False):
     out_node = render_nodes.new('CompositorNodeOutputFile')         ### 建立 File_Output_node
     out_node.base_path = out_path                                   ### 指定 輸出資料夾
     ##### image方面
-    out_node.file_slots[0].path = "0_image"                         ### 指定 "image" 的輸出檔名
+    out_node.file_slots[0].path = "0_image-"                         ### 指定 "image" 的輸出檔名
     out_node.format.file_format = 'PNG'                             ### 指定 PNG (這是base格式)
     render_links.new(render_layers_image_and_uv_node.outputs["Image"], out_node.inputs["Image"])  ### "image_and_uv"_RenderLayer_node 的 Image -> File_Output_node 的 Image(這Image是預設的，內部操作無法改名，但顯示上 和 實際輸出 其實都是 0_image囉！)
     ##### uv方面
@@ -254,7 +258,7 @@ def step5_render_pass(out_path, save_blend=False):
     out_node.file_slots[3].use_node_format = False                  ### 設定 不要用 最上面base格式
     out_node.file_slots[3].format.file_format = "OPEN_EXR"          ### 指定 OPEN_EXR
     render_links.new(render_layers_wc.outputs["Image"], out_node.inputs[wc_out_name])  ### "wc"_RenderLayer_node 的 Image -> File_Output_node 的 2_wc
-    wc_image_out_name = "2_wc_image"
+    wc_image_out_name = "2_wc_image-"
     out_node.file_slots.new(wc_image_out_name)                      ### 建立 "wc_image" 的輸出檔名，這是視覺化用的
     out_node.file_slots[4].use_node_format = False                  ### 設定 不要用 最上面base格式
     out_node.file_slots[4].format.file_format = "PNG"               ### 指定 PNG
@@ -267,8 +271,9 @@ def step5_render_pass(out_path, save_blend=False):
 
     bpy.data.scenes["Scene"].frame_current += 1  ### frame_index更新 給下次 Render用
 
+
 # disk_index = "L" ### 127.35
-disk_index = "H" ### HP820G1
+disk_index = "H"  ### HP820G1
 env_dir = disk_index + r":\Working\2 Blender\data_dir\0_ord\env"
 env_names = [env_name for env_name in os.listdir(env_dir) if ".hdr" in env_name]
 env_paths = [env_dir + "/" + env_name for env_name in env_names]
@@ -301,14 +306,14 @@ if __name__ == "__main__":
     obj_path = obj_paths[0]
     print("obj_path~~~", obj_path)
     # for obj_path in obj_paths[:]:
-    for _ in range(1):
+    for _ in range(10):
         step_0_remove_default_object()   # 刪掉Blender預設的 Cubic 和 Lamp 之類的東西
         step_0_prepare_scene()           # 設定 基礎環境
         step_0_prepare_rendersettings()  # 設定 Render參數
 
         mesh_ob = step_1_get_obj_and_set_init_position(obj_path=obj_path)  # 把物件放平
 
-        step2_add_lighting(env_paths, point_light_rate=0.75)
+        step2_add_lighting(env_paths, point_light_rate=0.5)
         step3_reset_camera()
         step4_page_texture_1_image_and_uv_material(mesh_ob, tex_paths)
         step4_page_texture_2_wc_material(mesh_ob)
