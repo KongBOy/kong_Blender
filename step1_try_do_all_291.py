@@ -4,6 +4,10 @@ import os
 import math
 from mathutils import Vector, Euler
 
+import sys
+import shutil
+import time
+import datetime
 
 def select_object(ob):
     bpy.ops.object.select_all(action='DESELECT')
@@ -53,13 +57,13 @@ def step_0_prepare_scene():
 
 
 def step_0_prepare_rendersettings():
-    # bpy.ops.object.select_all(action='DESELECT')
+    # bpy.context.preferences.addons["cycles"].preferences.compute_device_type = "CUDA"   ### 少這個下面改GPU也沒用喔！相當於進 Preference -> System -> 切換到 CUDA，好像執行一次後面都適用，但還是留著以免哪時候重新安裝Blender之類的情況
     scene = bpy.data.scenes['Scene']
-    scene.cycles.device = 'CPU'
-    scene.render.resolution_x = int(1080 * 0.7)
-    scene.render.resolution_y = int(1080 * 0.7)
+    scene.cycles.device = 'GPU'   ### "CPU"
+    scene.render.resolution_x = 512  ### int(1080 * 0.7)
+    scene.render.resolution_y = 512  ### int(1080 * 0.7)
     scene.render.resolution_percentage = 100
-    scene.cycles.samples = 1
+    scene.cycles.samples = 128
     scene.cycles.use_square_samples = False
 
 
@@ -175,7 +179,7 @@ def step4_page_texture_1_image_and_uv_material(mesh_ob, tex_paths):
     idx = random.randint(0, len(tex_paths) - 1)             ### 隨機取一個 tex_index
     tex_path = tex_paths[idx]                               ### 隨機取一個 tex_path
     print("tex_path", tex_path)
-    texture_node.image = bpy.data.images.load(tex_path)     ### 把 
+    texture_node.image = bpy.data.images.load(tex_path)     ### 把
 
     links = material.node_tree.links
     links.new(bsdf_node.outputs[0], out_node.inputs[0])
@@ -268,26 +272,34 @@ def step5_render_pass(out_path, save_blend=False):
     bpy.ops.render.render(write_still=False)  ### Render 出影像，Blender2.79 檔名後面會自動加 frame_index 喔！
 
     frame_index = bpy.data.scenes["Scene"].frame_current  ### 抓出目前的 frame_index，給 .blend 當index
-    if save_blend: bpy.ops.wm.save_mainfile(filepath=out_path + "/" + 'Blender_file_%i.blend' % frame_index)  ### 將目前編輯到現在的 Blender 存一份起來
+    if save_blend: bpy.ops.wm.save_mainfile(filepath=out_path + "/" + 'Blender_file_%04i.blend' % frame_index)  ### 將目前編輯到現在的 Blender 存一份起來
 
     bpy.data.scenes["Scene"].frame_current += 1  ### frame_index更新 給下次 Render用
 
 
-# disk_index = "L" ### 127.35
-disk_index = "H"  ### HP820G1
+# disk_index = "L"  ### 127.35
+# disk_index = "H"  ### HP820G1
+disk_index = "D"  ### 127.35 2021/09/15
+
+sys.path.append(disk_index + r":\Working\5 Python write Blender")
+
 env_dir = disk_index + r":\Working\2 Blender\data_dir\0_ord\env"
 env_names = [env_name for env_name in os.listdir(env_dir) if ".hdr" in env_name]
 env_paths = [env_dir + "/" + env_name for env_name in env_names]
-# print(env_paths)
+# from step0_get_dtd_img_path import dtd_img_paths
+# env_paths = dtd_img_paths
+print(env_paths)
 
 
-tex_dir = disk_index + r":\Working\2 Blender\data_dir\0_ord\tex"
-tex_names = [tex_name for tex_name in os.listdir(tex_dir) if ".jpg" in tex_name]
-tex_paths = [tex_dir + "/" + tex_name for tex_name in tex_names]
+# tex_dir = disk_index + r":\Working\2 Blender\data_dir\0_ord\tex"
+# tex_names = [tex_name for tex_name in os.listdir(tex_dir) if ".jpg" in tex_name]
+# tex_paths = [tex_dir + "/" + tex_name for tex_name in tex_names]
+from step0_get_os_img_paths import os_img_paths
+tex_paths = os_img_paths
 print(tex_paths)
 
-
-obj_dir = disk_index + r":\Working\3 RealScene_to_Blender\analyze2_image_uv_wc\result_smooth_Lamp_Camera_RenderLayer_ok"
+# obj_dir = disk_index + r":\Working\3 RealScene_to_Blender\analyze2_image_uv_wc\result_smooth_Lamp_Camera_RenderLayer_ok"
+obj_dir = disk_index + r":\Working\3 RealScene_to_Blender\analyze3_unwarp_compare_and_image_uv_wc\2 umwarp method compare"  ### 2021/09/15
 obj_names = ["try1_triangle_uv1_unwarp_small",
          "try1_triangle_uv2_unwarp_big",
          "try1_triangle_uv3_project_from_view",
@@ -295,28 +307,35 @@ obj_names = ["try1_triangle_uv1_unwarp_small",
          "try2_square_then_prone_uv2_unwarp_big",
          "try2_square_then_prone_uv3_project_from_view"]
 obj_paths = [obj_dir + "/" + obj_name + "/" + obj_name + "_remove_node.obj" for obj_name in obj_names]
-
+# print(obj_paths)
 
 
 if __name__ == "__main__":
     # blender --python try_do.py
     # out_path = obj_dir + "/" + obj_names[0]
     # out_path = r"C:\Users\TKU\Desktop\temp"
-    out_path = r"C:\Users\HP820G1\Desktop\temp"
+    # out_path = r"C:\Users\HP820G1\Desktop\temp"
+    # out_path = r"G:\kong_render_os_book_no_bg_768_testGPU"
+    out_path = r"J:\kong_render_os_book_all_have_bg_512"
+    os.makedirs(out_path, exist_ok=True)
+    python_code = __file__.split("\\")[-1]
+    current_time = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+    shutil.copy(python_code, out_path + "/" + python_code.replace(".py", f"_{current_time}.py"))
 
     obj_path = obj_paths[0]
     print("obj_path~~~", obj_path)
     # for obj_path in obj_paths[:]:
-    for _ in range(10):
+    start_time = time.time()
+    for _ in range(1000):
         step_0_remove_default_object()   # 刪掉Blender預設的 Cubic 和 Lamp 之類的東西
         step_0_prepare_scene()           # 設定 基礎環境
         step_0_prepare_rendersettings()  # 設定 Render參數
 
         mesh_ob = step_1_get_obj_and_set_init_position(obj_path=obj_path)  # 把物件放平
 
-        step2_add_lighting(env_paths, point_light_rate=0.5)
+        step2_add_lighting(env_paths, point_light_rate=0.0)
         step3_reset_camera()
         step4_page_texture_1_image_and_uv_material(mesh_ob, tex_paths)
         step4_page_texture_2_wc_material(mesh_ob)
         step5_render_pass(out_path, save_blend=True)
-
+    print("cost_time:", time.time() - start_time)  ### cost_time: 8341.265739917755

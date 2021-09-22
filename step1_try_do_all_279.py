@@ -54,8 +54,9 @@ def step_0_prepare_scene():
 
 def step_0_prepare_rendersettings():
     # bpy.ops.object.select_all(action='DESELECT')
+    bpy.context.user_preferences.addons["cycles"].preferences.compute_device_type = "CUDA"   ###    ### 少這個下面改GPU也沒用喔！相當於進 User_Preference -> System -> 切換到 CUDA，好像執行一次後面都適用，但還是留著以免哪時候重新安裝Blender之類的情況
     scene = bpy.data.scenes['Scene']
-    scene.cycles.device = 'CPU'
+    scene.cycles.device = 'GPU'   ### "CPU"
     scene.render.resolution_x = int(1080 * 0.7)
     scene.render.resolution_y = int(1080 * 0.7)
     scene.render.resolution_percentage = 100

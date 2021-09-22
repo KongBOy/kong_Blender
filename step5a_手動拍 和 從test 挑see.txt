@@ -1,0 +1,3 @@
+see_in：        手動拍dis_img， 如果太不像就自己合成背景           和 從test裡面挑幾張dis_img，
+see_gt：                        用全0                           和   test挑選的對應flows
+see_rec_hope： 之前弄768 已經找好了 對應的 ord掃描圖 直接copy過來  和   test挑選的對應rec_hope

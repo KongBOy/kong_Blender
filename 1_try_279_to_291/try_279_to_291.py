@@ -1,3 +1,11 @@
+第一行是 2.79 
+第二行是 2.91
+
+### render 切換到 GPU
+bpy.context.user_preferences.addons["cycles"].preferences.compute_device_type  = "CUDA"
+bpy.context.preferences.addons["cycles"].preferences.compute_device_type = "CUDA"
+
+
 ### 顏色管理
 	scene.view_settings.view_transform = 'Default'
 	scene.view_settings.view_transform = 'Standard'
@@ -7,7 +15,7 @@
 	bpy.data.objects['Cube'].select = True
 	bpy.data.objects['Cube'].select_set(True)
 
-	bpy.context.scene.objects.data
+	bpy.context.scene.objects.active
 	bpy.context.view_layer.objects.active
 
 	
@@ -39,3 +47,5 @@
 
 	bpy.data.scenes['Scene'].render.layers
 	bpy.data.scenes["Scene"].view_layers
+    
+    

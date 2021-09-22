@@ -1,1 +1,3 @@
 *.lnk
+.vscode
+__pycache__
