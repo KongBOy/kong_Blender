@@ -1,7 +1,6 @@
 import sys
 sys.path.append("../kong_util")
 
-from blender_util import get_dir_blends_and_extract_texture_image_file_name
 from util import get_dir_certain_file_name
 from build_dataset_combine import Check_dir_exist_and_build
 import shutil
@@ -16,30 +15,29 @@ def grab_ord_dir_certain_file_to_dst_dir(ord_dir, certain_word, certain_ext, dst
         shutil.move(ord_path, dst_path)
         if(print_msg): print(ord_path, "->", dst_path, "finish~")
 
-def blender_render_result_split_to_dir(root_dir):
-    image_ord_dir = root_dir
-    image_dst_dir = root_dir + "/" + "0_image"
+def blender_render_result_split_to_dir(render_out_dir):
+    image_ord_dir = render_out_dir
+    image_dst_dir = render_out_dir + "/" + "0_image"
     grab_ord_dir_certain_file_to_dst_dir(ord_dir=image_ord_dir, certain_word="0_image", certain_ext=".png", dst_dir=image_dst_dir, print_msg=True)
 
-    uv_ord_dir = root_dir
-    uv_dst_dir = root_dir + "/" + "1_uv"
+    uv_ord_dir = render_out_dir
+    uv_dst_dir = render_out_dir + "/" + "1_uv"
     grab_ord_dir_certain_file_to_dst_dir(ord_dir=uv_ord_dir, certain_word="1_uv", certain_ext=".exr", dst_dir=uv_dst_dir, print_msg=True)
 
-    uv_visual_ord_dir = root_dir
-    uv_visual_dst_dir = root_dir + "/" + "1_uv_visual"
+    uv_visual_ord_dir = render_out_dir
+    uv_visual_dst_dir = render_out_dir + "/" + "1_uv_visual"
     grab_ord_dir_certain_file_to_dst_dir(ord_dir=uv_visual_ord_dir, certain_word="1_uv_image", certain_ext=".png", dst_dir=uv_visual_dst_dir, print_msg=True)
 
-    wc_ord_dir = root_dir
-    wc_dst_dir = root_dir + "/" + "2_wc"
+    wc_ord_dir = render_out_dir
+    wc_dst_dir = render_out_dir + "/" + "2_wc"
     grab_ord_dir_certain_file_to_dst_dir(ord_dir=wc_ord_dir, certain_word="2_wc", certain_ext=".exr", dst_dir=wc_dst_dir, print_msg=True)
 
-    wc_visual_ord_dir = root_dir
-    wc_visual_dst_dir = root_dir + "/" + "2_wc_visual"
+    wc_visual_ord_dir = render_out_dir
+    wc_visual_dst_dir = render_out_dir + "/" + "2_wc_visual"
     grab_ord_dir_certain_file_to_dst_dir(ord_dir=wc_visual_ord_dir, certain_word="2_wc_image", certain_ext=".png", dst_dir=wc_visual_dst_dir, print_msg=True)
 
 
 if(__name__ == "__main__"):
-    # root_dir = "J:/kong_render_os_book_have_bg_512"
-    root_dir = "J:/kong_render_os_book_all_have_bg_512"
+    from step0_disk_index import render_out_dir
 
-    blender_render_result_split_to_dir(root_dir)
+    blender_render_result_split_to_dir(render_out_dir)

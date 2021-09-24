@@ -273,21 +273,21 @@ def step5_render_pass(out_path, save_blend=False):
     bpy.data.scenes["Scene"].frame_current += 1  ### frame_index更新 給下次 Render用
 
 
-# disk_index = "L" ### 127.35
-disk_index = "H"  ### HP820G1
-env_dir = disk_index + r":\Working\2 Blender\data_dir\0_ord\env"
+# Working_disk_index = "L" ### 127.35
+Working_disk_index = "H"  ### HP820G1
+env_dir = Working_disk_index + r":\Working\2 Blender\data_dir\0_ord\env"
 env_names = [env_name for env_name in os.listdir(env_dir) if ".hdr" in env_name]
 env_paths = [env_dir + "/" + env_name for env_name in env_names]
 # print(env_paths)
 
 
-tex_dir = disk_index + r":\Working\2 Blender\data_dir\0_ord\tex"
+tex_dir = Working_disk_index + r":\Working\2 Blender\data_dir\0_ord\tex"
 tex_names = [tex_name for tex_name in os.listdir(tex_dir) if ".jpg" in tex_name]
 tex_paths = [tex_dir + "/" + tex_name for tex_name in tex_names]
 print(tex_paths)
 
 
-obj_dir = disk_index + r":\Working\3 RealScene_to_Blender\analyze2_image_uv_wc\result_smooth_Lamp_Camera_RenderLayer_ok"
+obj_dir = Working_disk_index + r":\Working\3 RealScene_to_Blender\analyze2_image_uv_wc\result_smooth_Lamp_Camera_RenderLayer_ok"
 obj_names = ["try1_triangle_uv1_unwarp_small",
          "try1_triangle_uv2_unwarp_big",
          "try1_triangle_uv3_project_from_view",

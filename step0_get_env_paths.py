@@ -1,8 +1,16 @@
+'''
+設定 各個 env 的來源
+'''
+from step0_disk_index import Working_disk_index
+import sys
+sys.path.append("../kong_util")
 import os
+
+from util import get_dir_certain_file_paths
 
 class DTD:
     def __init__(self):
-        self.dtd_root = r"G:\dtd"
+        self.dtd_root = r"J:\dtd"
         self.img_root = self.dtd_root + "/" + "images"
         self.img_paths = []
 
@@ -18,7 +26,13 @@ class DTD:
         return self.img_paths
 
 
-dtd_img_paths = DTD().get_img_paths()
+dtd_img_paths       = DTD().get_img_paths()
+dewarpnet_env_paths = get_dir_certain_file_paths(f"{Working_disk_index}:/Working/2 Blender/data_dir/0_ord/env", certain_word=".hdr")
+
+env_paths = []
+# env_paths += dtd_img_paths
+env_paths += dewarpnet_env_paths
+
 if __name__ == '__main__':
     import cv2
     print(dtd_img_paths)
@@ -26,3 +40,6 @@ if __name__ == '__main__':
     cv2.imshow("img", img)
     cv2.waitKey()
     cv2.destroyAllWindows()
+
+    print("dewarpnet_env_paths", dewarpnet_env_paths)
+    print("env_paths", env_paths)
