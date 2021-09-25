@@ -29,13 +29,11 @@ class DTD:
 dtd_img_paths       = DTD().get_img_paths()
 dewarpnet_env_paths = get_dir_certain_file_paths(f"{Working_disk_index}:/Working/2 Blender/data_dir/0_ord/env", certain_word=".hdr")
 
-env_paths = []
-# env_paths += dtd_img_paths
-env_paths += dewarpnet_env_paths
 
 if __name__ == '__main__':
     import cv2
-    print(dtd_img_paths)
+    print("len(dtd_img_paths)", len(dtd_img_paths))
+    print("len(dewarpnet_env_paths)", len(dewarpnet_env_paths))
     img = cv2.imread(dtd_img_paths[-15])
     cv2.imshow("img", img)
     cv2.waitKey()

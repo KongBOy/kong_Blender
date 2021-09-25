@@ -286,14 +286,24 @@ if __name__ == "__main__":
     '''
     去各個 step0 設定 要抓的 env, tex, obj, render_out_dir
     '''
-    from step0_get_env_paths import env_paths
-    from step0_get_tex_paths import tex_paths
+    from step0_get_env_paths import *
+    from step0_get_tex_paths import *
     from step0_get_obj_paths import obj_paths
     from step0_disk_index import render_out_dir
+
+    # out_amount = 1000
+    # width  = 512
+    # height = 512
+    # env_paths  = dewarpnet_env_paths
+    # tex_paths  = os_img_paths
+    # tex_paths += paper_img_paths
 
     out_amount = 1000
     width  = 512
     height = 512
+    env_paths  = dtd_img_paths
+    tex_paths  = os_img_paths
+    tex_paths += paper_img_paths
     '''
     執行時要打的指令：
         blender -b --python step1_try_do_all_291.py

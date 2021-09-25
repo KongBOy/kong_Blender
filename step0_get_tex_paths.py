@@ -21,10 +21,7 @@ os_img_paths = OS_book().get_img_paths()
 dewarpnet_tex_paths = get_dir_img_paths(f"{Working_disk_index}:/Working/2 Blender/data_dir/0_ord/tex")
 paper_img_paths     = get_dir_img_paths(f"C:/Users/TKU/Desktop/collect_pdf/result")
 
-tex_paths = []
-tex_paths += os_img_paths
-# tex_paths += dewarpnet_tex_paths
-tex_paths += paper_img_paths
+
 
 
 if __name__ == '__main__':
