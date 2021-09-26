@@ -13,4 +13,6 @@ Working_disk_index = "D"  ### 127.35 2021/09/15
 # render_out_dir = "J:/kong_render_os_book_have_bg_512"  ###  純 os_book， 一半有背景 一半黑背景， 沒有拿來train， 只是 try的概念
 # render_out_dir = "J:/kong_render_os_book_all_have_bg_512"  ### 純 os_book， 全部都有背景， 有拿來train
 # render_out_dir = "J:/kong_render_os_book_and_paper_all_have_bg_512"  ### os_book + paper 頁面， 全部都有背景， 有拿來train
-render_out_dir = "J:/kong_render_os_book_and_paper_all_have_dtd_bg_512"  ### os_book + paper 頁面， 全部都有背景， 有拿來train
+# render_out_dir = "J:/kong_render_os_book_and_paper_all_have_dtd_bg_512"  ### os_book + paper 頁面， 全部都有背景， 有拿來train
+# render_out_dir = "J:/kong_render_try_image_ord_dir"  ### os_book + paper 頁面， 全部都有背景， 有拿來train
+render_out_dir = "J:/kong_render_os_book_and_paper_all_have_dtd_hdr_mix_bg_512"  ### os_book + paper 頁面， 全部都有背景， 有拿來train

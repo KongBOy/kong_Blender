@@ -80,63 +80,65 @@ def step_1_get_obj_and_set_init_position(obj_path):
     return mesh_ob
 
 
-def step2_add_lighting(env_paths, point_light_rate=1.0):
-    if random.random() <= point_light_rate:  # point light
-        ###############################################################################################################################
-        litpos, _ = get_rotation_around_axis_randomly(dist_range=(3, 5), x_rotate_range=(90, 90 + 45), z_rotate_range=(0, 360))
-        ### Lamp物件
-        bpy.ops.object.add(type='LIGHT', location=litpos)  ### 建立 lamp物件
-        lamp = bpy.data.lights[0]                          ### 把建立的 lamp物件 抓出來
-        lamp.use_nodes = True                             ### lamp物件 使用node 模式 來設定
-        lamp_nodes = lamp.node_tree.nodes                 ### lamp物件 預設nodes抓出來，預設會有 Lamp Output 和 Emission，不用擔心 如果同Blender重複使用第二次以上，會有前次建立的 BlackBody，因為最一開始 step0 會刪掉 前一次的Lamp！本次新增的就不會有前次的東西囉！
-        lamp_links = lamp.node_tree.links                 ### lamp物件 預設nodes之間的links抓出來
+def step2_add_lighting(env_paths, env_weights=None, point_light_rate=1.0):
+    # if random.random() <= point_light_rate:  # point light
+    ###############################################################################################################################
+    # litpos, _ = get_rotation_around_axis_randomly(dist_range=(3, 5), x_rotate_range=(90, 90 + 45), z_rotate_range=(0, 360))
+    litpos, _ = get_rotation_around_axis_randomly(dist_range=(3, 10), x_rotate_range=(90, 90 + 45), z_rotate_range=(0, 360))
+    ### Lamp物件
+    bpy.ops.object.add(type='LIGHT', location=litpos)  ### 建立 lamp物件
+    lamp = bpy.data.lights[0]                          ### 把建立的 lamp物件 抓出來
+    lamp.use_nodes = True                             ### lamp物件 使用node 模式 來設定
+    lamp_nodes = lamp.node_tree.nodes                 ### lamp物件 預設nodes抓出來，預設會有 Lamp Output 和 Emission，不用擔心 如果同Blender重複使用第二次以上，會有前次建立的 BlackBody，因為最一開始 step0 會刪掉 前一次的Lamp！本次新增的就不會有前次的東西囉！
+    lamp_links = lamp.node_tree.links                 ### lamp物件 預設nodes之間的links抓出來
 
-        ### Lamp物件 裡面的 Emission_node，來設定光的強度
-        lamp_stren = lamp_nodes["Emission"]               ### 抓出預設建立的 Emission_node
-        strngth = random.uniform(20, 50)                ### lamp光的強度設定值
-        lamp_stren.inputs[1].default_value = strngth      ### lamp光的強度設定值 給 Emission_node
+    ### Lamp物件 裡面的 Emission_node，來設定光的強度
+    lamp_stren = lamp_nodes["Emission"]               ### 抓出預設建立的 Emission_node
+    strngth = random.uniform(20, 50)                ### lamp光的強度設定值
+    lamp_stren.inputs[1].default_value = strngth      ### lamp光的強度設定值 給 Emission_node
 
-        ### Lamp物件 裡面的 Blackbody_node，來設定光的色溫，希望可以更貼近 自然光
-        bbody = lamp_nodes.new(type='ShaderNodeBlackbody')      ### lamp的色溫node
-        color_temper = random.uniform(2700, 10200)              ### lamp的色溫：淡黃~白~淡藍
-        bbody.inputs[0].default_value = color_temper            ### lamp的色溫 設定給 Blackbody_node
-        lamp_links.new(bbody.outputs[0], lamp_stren.inputs[0])  ### Blackbody -> Emission 連接上
+    ### Lamp物件 裡面的 Blackbody_node，來設定光的色溫，希望可以更貼近 自然光
+    bbody = lamp_nodes.new(type='ShaderNodeBlackbody')      ### lamp的色溫node
+    color_temper = random.uniform(2700, 10200)              ### lamp的色溫：淡黃~白~淡藍
+    bbody.inputs[0].default_value = color_temper            ### lamp的色溫 設定給 Blackbody_node
+    lamp_links.new(bbody.outputs[0], lamp_stren.inputs[0])  ### Blackbody -> Emission 連接上
 
-    else:  # hdr world lighting
-        print("hdr world light")
-        ### World物件
-        bpy.ops.world.new()                ### 建立 World物件
-        world = bpy.data.worlds['World']   ### 把內建的 World物件 抓出來
-        world.use_nodes = True             ### World物件 使用node 模式 來設定
-        w_nodes = world.node_tree.nodes    ### World物件 預設nodes抓出來，預設會有 Background 和 World Output
-        w_links = world.node_tree.links    ### World物件 預設nodes之間的links抓出來
+    # else:  # hdr world lighting
+    print("hdr world light")
+    ### World物件
+    bpy.ops.world.new()                ### 建立 World物件
+    world = bpy.data.worlds['World']   ### 把內建的 World物件 抓出來
+    world.use_nodes = True             ### World物件 使用node 模式 來設定
+    w_nodes = world.node_tree.nodes    ### World物件 預設nodes抓出來，預設會有 Background 和 World Output
+    w_links = world.node_tree.links    ### World物件 預設nodes之間的links抓出來
 
-        ### World物件 裡面的 Environment_Texture_node，可以 決定要用哪個.hdr當背景
-        envnode = w_nodes.new(type='ShaderNodeTexEnvironment')  ### 建立 Environment_Texture_node
-        idx = random.randint(0, len(env_paths) - 1)             ### 隨機取一個 env_index
-        env_path = env_paths[idx]                               ### 隨機取一個 env_path
-        print("env_path", env_path)
-        envnode.image = bpy.data.images.load(env_path)          ### load env_path.hdr 進 blender
+    ### World物件 裡面的 Environment_Texture_node，可以 決定要用哪個.hdr當背景
+    envnode = w_nodes.new(type='ShaderNodeTexEnvironment')  ### 建立 Environment_Texture_node
+    # idx = random.randint(0, len(env_paths) - 1)             ### 隨機取一個 env_index
+    # env_path = env_paths[idx]                               ### 隨機取一個 env_path
+    env_path = random.choices(env_paths, weights=env_weights, k=1)[0]
+    print("env_path", env_path)
+    envnode.image = bpy.data.images.load(env_path)          ### load env_path.hdr 進 blender
 
-        ### World物件 裡面的 Texture_Coordinate_node，可以 調背景轉的角度 和
-        texcoord = w_nodes.new(type='ShaderNodeTexCoord')     ### 建立 Texture_Coordinate_node
-        mapping = w_nodes.new(type='ShaderNodeMapping')       ### 建立 Mapping
-        mapping.inputs["Rotation"].default_value[2] = random.uniform(0, 6.28)  ###  ### 背景z：0~720度之間隨機轉個角度
-        # mapping.rotation[2] = random.uniform(0, 6.28)         ### 背景0~720度之間隨機轉個角度
+    ### World物件 裡面的 Texture_Coordinate_node，可以 調背景轉的角度 和
+    texcoord = w_nodes.new(type='ShaderNodeTexCoord')     ### 建立 Texture_Coordinate_node
+    mapping = w_nodes.new(type='ShaderNodeMapping')       ### 建立 Mapping
+    mapping.inputs["Rotation"].default_value[2] = random.uniform(0, 6.28)  ###  ### 背景z：0~720度之間隨機轉個角度
+    # mapping.rotation[2] = random.uniform(0, 6.28)         ### 背景0~720度之間隨機轉個角度
 
 
-        ### World物件 裡面的 Background_node，可以 調背景強度
-        bg_node = w_nodes['Background']                         ### 抓出預設建立的 Background_node
-        envstr = 1  ### int(envp[1])，我看 DewarpNet 他們的 env.csv，第二個參數都設1，這裡乾脆直接指定囉~~
-        bg_node.inputs[1].default_value = random.uniform(0.4 * envstr, 0.6 * envstr)  ### Background 的強度
+    ### World物件 裡面的 Background_node，可以 調背景強度
+    bg_node = w_nodes['Background']                         ### 抓出預設建立的 Background_node
+    envstr = 1  ### int(envp[1])，我看 DewarpNet 他們的 env.csv，第二個參數都設1，這裡乾脆直接指定囉~~
+    bg_node.inputs[1].default_value = random.uniform(0.4 * envstr, 0.6 * envstr)  ### Background 的強度
 
-        ### 把上面的 nodes 連起來
-        w_links.new(texcoord.outputs[0], mapping.inputs[0])     ### Texture_Coordinate 的 Generated -> Mapping 的 Vector
-        w_links.new(mapping.outputs[0] , envnode.inputs[0])     ### Mapping 的 Vector -> Environment_Texture 的 Vector
-        w_links.new(envnode.outputs[0] , bg_node.inputs[0])     ### Environment_Texture 的 Color -> Background 的 C
+    ### 把上面的 nodes 連起來
+    w_links.new(texcoord.outputs[0], mapping.inputs[0])     ### Texture_Coordinate 的 Generated -> Mapping 的 Vector
+    w_links.new(mapping.outputs[0] , envnode.inputs[0])     ### Mapping 的 Vector -> Environment_Texture 的 Vector
+    w_links.new(envnode.outputs[0] , bg_node.inputs[0])     ### Environment_Texture 的 Color -> Background 的 C
 
-        ## Blender 套用 上面 建好的 World物件
-        bpy.context.scene.world = world
+    ## Blender 套用 上面 建好的 World物件
+    bpy.context.scene.world = world
 
 def step3_reset_camera():
     # bpy.ops.object.select_all(action='DESELECT')
@@ -354,16 +356,33 @@ if __name__ == "__main__":
     # out_amount = 1000
     # width  = 512
     # height = 512
-    # env_paths  = dewarpnet_env_paths
-    # tex_paths  = os_img_paths
+    # env_paths = []
+    # env_paths += dewarpnet_env_paths
+    # tex_paths = []
+    # tex_paths += os_img_paths
     # tex_paths += paper_img_paths
 
     #####################################################
-    out_amount = 1
+    # out_amount = 1
+    # width  = 512
+    # height = 512
+    # env_paths = []
+    # env_paths += dtd_img_paths
+    # tex_paths = []
+    # tex_paths += os_img_paths
+    # tex_paths += paper_img_paths
+    #####################################################
+    ''' os_book_and_paper_all_have_dtd_hdr_mix_bg_512 '''
+    out_amount = 1000
     width  = 512
     height = 512
-    env_paths  = dtd_img_paths
-    tex_paths  = os_img_paths
+    env_paths = []
+    env_paths += dtd_img_paths
+    env_paths += dewarpnet_env_paths
+    env_weights = Get_env_weights(dtd_img_paths, dewarpnet_env_paths)
+
+    tex_paths = []
+    tex_paths += os_img_paths
     tex_paths += paper_img_paths
     '''
     執行時要打的指令：
@@ -390,7 +409,7 @@ if __name__ == "__main__":
         '''隨機取 obj， 但我現在也只有一種obj 沒得隨機取 QAQ'''
         mesh_ob = step_1_get_obj_and_set_init_position(obj_path=obj_paths[0])  # 把物件放平
 
-        step2_add_lighting(env_paths, point_light_rate=0.0)
+        step2_add_lighting(env_paths, env_weights=env_weights, point_light_rate=0.0)
         step3_reset_camera()
         step4_page_texture_1_image_and_uv_material(mesh_ob, tex_paths, render_out_dir)
         step4_page_texture_2_wc_material(mesh_ob)
