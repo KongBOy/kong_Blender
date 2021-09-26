@@ -166,7 +166,7 @@ def step3_reset_camera():
     # bpy.context.scene.update()
 
 
-def step4_page_texture_1_image_and_uv_material(mesh_ob, tex_paths):
+def step4_page_texture_1_image_and_uv_material(mesh_ob, tex_paths, render_out_dir):
     select_object(mesh_ob)                        ### 一定要選到 mesh_ob 才能做 object.material_slot_add() 喔！
     bpy.ops.object.material_slot_add()            ### 相當於點  +  ，新增一個 slot，應該是texture的概念吧
     material = bpy.data.materials.new('image_and_uv')  ### 相當於點 new ，新增一個 material，命名為 image_and_uv
@@ -194,6 +194,11 @@ def step4_page_texture_1_image_and_uv_material(mesh_ob, tex_paths):
     texturecoord_node = nodes.new(type='ShaderNodeTexCoord')
     links.new(texture_node.inputs[0], texturecoord_node.outputs[2])
 
+    ### 存一份 現在使用的 texture 到 image_ord, 之後可以當 rec_hope(最期望可以恢復到 這種電子檔 的概念)
+    if(os.path.isdir(f"{render_out_dir}/0_image_ord") is False): os.makedirs(f"{render_out_dir}/0_image_ord", exist_ok=True)
+    frame_index = bpy.data.scenes["Scene"].frame_current  ### 抓出目前的 frame_index，給 image_ord 命名當index 用
+    tex_name = tex_path.split("/")[-1]  ### 抓出目前的 texture 的 file_name， 給 image_ord 命名用
+    shutil.copy(tex_path, "%s/0_image_ord/%06i-%s" % (render_out_dir, frame_index, tex_name))  ### 複製一份 texture 原圖
 
 
 
@@ -387,7 +392,7 @@ if __name__ == "__main__":
 
         step2_add_lighting(env_paths, point_light_rate=0.0)
         step3_reset_camera()
-        step4_page_texture_1_image_and_uv_material(mesh_ob, tex_paths)
+        step4_page_texture_1_image_and_uv_material(mesh_ob, tex_paths, render_out_dir)
         step4_page_texture_2_wc_material(mesh_ob)
         step5_render_pass(render_out_dir, save_blend=True)
     print("cost_time:", time.time() - start_time)  ### cost_time: 8341.265739917755
