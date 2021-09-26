@@ -282,7 +282,60 @@ def step5_render_pass(render_out_dir, save_blend=False):
 
 
 if __name__ == "__main__":
-    #########################################################################################################
+    # #################################################################################################################
+    # #################################################################################################################
+    # '''
+    # 在 Blender 內用 alt + P 執行時 git clone 一下 kong_model2， 失敗了， 因為在Blender 裡面開不起來 管理員權限 一個可能的解法式 把 Blender 灌在 別的槽
+    # '''
+    # kong_model2_dir = "C:/Users/TKU/Desktop/kong_model2"
+    # print("os.getcwd()", os.getcwd())
+    # if("Blender Foundation" in os.getcwd().split("\\")):
+    #     #############################################################################################################
+    #     #############################################################################################################
+    #     # print(f"doing {__file__}")
+    #     import os
+    #     # os.system("python -m pip install pywin32")
+    #     # os.system("python pywin32_postinstall.py -install")
+    #     import ctypes, sys
+    #     # sys.path.append("C:/Users/TKU/anaconda3/envs/blender291/Lib/site-packages/win32/lib")
+    #     # sys.path.append("C:/Users/TKU/anaconda3/envs/blender291/Lib/site-packages/win32")
+    #     import win32con, win32event, win32process
+    #     from win32com.shell.shell import ShellExecuteEx
+    #     from win32com.shell import shellcon
+
+
+    #     if ctypes.windll.shell32.IsUserAnAdmin():  ### 如果是 Administrator 才可做以下的事情
+    #         '''
+    #         管理員身分執行的程式碼加到這裡
+    #         '''
+    #         print('I am elevating to admin privilege.')
+    #         import os
+    #         git_status = os.system("git clone https://github.com/KongBOy/kong_model2.git")
+    #         if(git_status != 0 ): print("kong_model2 已存在,")
+    #         os.chdir(f"{os.getcwd()}/kong_model2")
+    #         os.system("git pull")
+    #         os.system("git submodule init")
+    #         os.system("git submodule update")
+    #         sys.exit()  ### 做完  Administrator 的事情 就可以把這個 terminal 關掉囉！
+    #     else:
+    #         ### 用 Administrator身分 另開一個terminal 執行本程式
+    #         procInfo = ShellExecuteEx(nShow=win32con.SW_SHOWNORMAL,  ### 1
+    #                             fMask=shellcon.SEE_MASK_NOCLOSEPROCESS,  ### 64
+    #                             lpVerb='runas',  ### 'runas'
+    #                             lpFile=sys.executable,   ### '"C:\\Users\\TKU\\anaconda3\\python.exe"'
+    #                             lpParameters=__file__  ### '"c:\\Users\\TKU\\Desktop\\try\\trt4.py"'
+    #                             )
+    #         procHandle = procInfo['hProcess']  ### ### <PyHANDLE:1668> 之類的東西
+    #         win32event.WaitForSingleObject(procHandle, win32event.INFINITE)
+    #         win32process.GetExitCodeProcess(procHandle)
+    #     #############################################################################################################
+    #     #############################################################################################################
+    #     # sys.path.append(os.getcwd() + "/kong_model2")
+    #     sys.path.append(os.getcwd() + "/kong_model2/kong_Blender")
+    #     sys.path.append(os.getcwd() + "/kong_model2/kong_util")
+    #     print(__file__)
+    # #################################################################################################################
+    # #################################################################################################################
     '''
     去各個 step0 設定 要抓的 env, tex, obj, render_out_dir
     '''
@@ -290,7 +343,7 @@ if __name__ == "__main__":
     from step0_get_tex_paths import *
     from step0_get_obj_paths import obj_paths
     from step0_disk_index import render_out_dir
-
+    #####################################################
     # out_amount = 1000
     # width  = 512
     # height = 512
@@ -298,7 +351,8 @@ if __name__ == "__main__":
     # tex_paths  = os_img_paths
     # tex_paths += paper_img_paths
 
-    out_amount = 1000
+    #####################################################
+    out_amount = 1
     width  = 512
     height = 512
     env_paths  = dtd_img_paths
@@ -313,11 +367,13 @@ if __name__ == "__main__":
     # render_out_dir = r"C:\Users\TKU\Desktop\temp"
     # render_out_dir = r"C:\Users\HP820G1\Desktop\temp"
     # render_out_dir = r"G:\kong_render_os_book_no_bg_768_testGPU"
-    os.makedirs(render_out_dir, exist_ok=True)
-    python_code = __file__.split("\\")[-1]
-    current_time = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
-    shutil.copy(python_code, render_out_dir + "/" + python_code.replace(".py", f"_{current_time}.py"))
 
+    ### 複製一份 生成dataset的 程式碼： step1_try_do_all_291.py 到 render_out_dir 留底
+    if("Blender Foundation" not in os.getcwd().split("\\")):  ### 因為 render_out_dir 是從 kong_model/kong_Blender 裡import的， 直接在 Blender 裡面跑python 是抓不到的， 除非解決 管理員權限問題 git clone 一份出來給 Blender 用這樣子
+        os.makedirs(render_out_dir, exist_ok=True)
+        python_code = __file__.split("\\")[-1]
+        current_time = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+        shutil.copy(python_code, render_out_dir + "/" + python_code.replace(".py", f"_{current_time}.py"))
     #########################################################################################################
     start_time = time.time()
     for _ in range(out_amount):
