@@ -5,8 +5,10 @@ import math
 from mathutils import Vector, Euler
 
 import sys
-sys.path.append(".")
-sys.path.append("../kong_util")
+sys.path.append(".")              ### 在 kong_Blender 下 開 VSCode
+sys.path.append("../kong_util")   ### 在 kong_Blender 下 開 VSCode
+sys.path.append("C:/Users/TKU/Desktop/kong_model2/kong_Blender")   ### 在 Blender291 下 案 alt+P 執行, 只能手動指定， 不能放到 step0, 因為在 Blender291下執行 什麼東西都沒有
+sys.path.append("C:/Users/TKU/Desktop/kong_model2/kong_util")      ### 在 Blender291 下 案 alt+P 執行, 只能手動指定， 不能放到 step0, 因為在 Blender291下執行 什麼東西都沒有
 import shutil
 import time
 import datetime
