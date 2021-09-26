@@ -76,7 +76,7 @@ if __name__ == '__main__':
         env_path = random.choices(env_paths, weights=env_weights, k=1)[0]
         env_log.append(env_path)
         print(env_path)
-    
+
     hdr_amount = 0
     dtd_amount = 0
     for env_path in env_log:

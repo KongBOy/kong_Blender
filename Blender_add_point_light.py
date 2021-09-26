@@ -1,7 +1,6 @@
 
 import bpy
 import random
-import os
 import math
 from mathutils import Vector, Euler
 
