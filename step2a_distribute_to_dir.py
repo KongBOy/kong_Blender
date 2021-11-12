@@ -1,14 +1,14 @@
 import sys
 sys.path.append("../kong_util")
 
-from util import get_dir_certain_file_name
+from util import get_dir_certain_file_names
 from build_dataset_combine import Check_dir_exist_and_build
 import shutil
 
 def grab_ord_dir_certain_file_to_dst_dir(ord_dir, certain_word, certain_ext, dst_dir, print_msg=False):
     Check_dir_exist_and_build(dst_dir)  ### 建立 dst_dir， 不可以用 build_new_dir 喔！ 要不然執行第二次以上 dst_dir 的東西就會被刪掉
 
-    file_names = get_dir_certain_file_name(ord_dir=ord_dir, certain_word=certain_word, certain_ext=certain_ext)
+    file_names = get_dir_certain_file_names(ord_dir=ord_dir, certain_word=certain_word, certain_ext=certain_ext)
     for file_name in file_names:
         ord_path = ord_dir + "/" + file_name
         dst_path = dst_dir + "/" + file_name
