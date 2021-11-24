@@ -55,17 +55,19 @@ from build_dataset_combine import build_datasets
 #                src_rec_hope_word=".jpg")
 #########################################################################################
 ### blender_os_hw512
-render_out_disk = "J"
-render_out_dir = "kong_render_os_book_and_paper_all_have_dtd_hdr_mix_bg_512"
+from step0_disk_index import render_out_dir, render_name
+
+db_out_disk = "J"
 db_name = "blender_os_and_paper_hw512_have_dtd_hdr_mix_bg"
-build_datasets(src_in_dir   = f"{render_out_disk}:/{render_out_dir}/0_image",
-               src_gt_dir   = f"{render_out_disk}:/{render_out_dir}/1_uv_knpy",
+db_out_dir =  f"{db_out_disk}:/{render_name}/{db_name}"
+build_datasets(src_in_dir   = f"{render_out_dir}/0_image",
+               src_gt_dir   = f"{render_out_dir}/1_uv_knpy",
                src_in_word  = ".png",
                src_gt_word  = ".knpy",
-               dst_db_dir   = f"{render_out_disk}:/{render_out_dir}",
+               dst_db_dir   = db_out_dir,
                db_name      = db_name,
                db_in_name   = "dis_imgs",
                db_gt_name   = "flows",
                train_amount = 900,
-               src_rec_hope_dir=f"{render_out_disk}:/{render_out_dir}/0_image_ord",
+               src_rec_hope_dir=f"{render_out_dir}/0_image_ord",
                src_rec_hope_word=".jpg")
