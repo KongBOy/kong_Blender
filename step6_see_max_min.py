@@ -9,8 +9,11 @@ render_out_uv_npy_dir = f"{render_out_dir}/1_uv_npy"
 render_out_wc_npy_dir = f"{render_out_dir}/2_wc_npy"
 
 uvs = get_dir_npys(render_out_uv_npy_dir)
-print(uvs[:900].max())
-print(uvs[:900].min())
+print(uvs[:].max())
+print(uvs[:].min())
+print(uvs[0].shape)
 wcs = get_dir_npys(render_out_wc_npy_dir)
-print(wcs[:900].max())
-print(wcs[:900].min())
+print(wcs[:].max())
+print(wcs[:].min())
+print(wcs[0].dtype)
+print(wcs[0].shape)

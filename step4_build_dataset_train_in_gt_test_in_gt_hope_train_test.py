@@ -57,17 +57,32 @@ from build_dataset_combine import build_datasets
 ### blender_os_hw512
 from step0_disk_index import render_out_dir, render_name
 
-db_out_disk = "J"
-db_name = "blender_os_and_paper_hw512_have_dtd_hdr_mix_bg"
+# db_out_disk = "J"
+# db_name = "blender_os_and_paper_hw512_have_dtd_hdr_mix_bg"
+# db_out_dir =  f"{db_out_disk}:/{render_name}/{db_name}"
+# build_datasets(src_in_dir   = f"{render_out_dir}/0_image",
+#                src_gt_dir   = f"{render_out_dir}/1_uv_knpy",
+#                src_in_word  = ".png",
+#                src_gt_word  = ".knpy",
+#                dst_db_dir   = db_out_dir,
+#                db_name      = db_name,
+#                db_in_name   = "dis_imgs",
+#                db_gt_name   = "flows",
+#                train_amount = 900,
+#                src_rec_hope_dir=f"{render_out_dir}/0_image_ord",
+#                src_rec_hope_word=".jpg")
+
+db_out_disk = "K"
+db_name = "os_and_paper_hw512_dtd_hdr_mix_bg_I_to_W"
 db_out_dir =  f"{db_out_disk}:/{render_name}/{db_name}"
 build_datasets(src_in_dir   = f"{render_out_dir}/0_image",
-               src_gt_dir   = f"{render_out_dir}/1_uv_knpy",
+               src_gt_dir   = f"{render_out_dir}/2_wc_knpy",
                src_in_word  = ".png",
                src_gt_word  = ".knpy",
                dst_db_dir   = db_out_dir,
                db_name      = db_name,
                db_in_name   = "dis_imgs",
-               db_gt_name   = "flows",
+               db_gt_name   = "wcs",
                train_amount = 900,
                src_rec_hope_dir=f"{render_out_dir}/0_image_ord",
                src_rec_hope_word=".jpg")
