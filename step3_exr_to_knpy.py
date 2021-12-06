@@ -1,12 +1,12 @@
 import sys
 sys.path.append("../kong_util")
 
-from build_dataset_combine import Save_exr_as_npy2, Save_npy_as_knpy
+from build_dataset_combine import Save_exr_as_npy2, Save_npy_dir_as_knpy
 import time
 
 def dir_exr_to_npy_to_knpy(exr_ord_dir, npy_dst_dir, knpy_dst_dir):
     Save_exr_as_npy2(exr_ord_dir, npy_dst_dir)
-    Save_npy_as_knpy(npy_dst_dir, knpy_dst_dir)
+    Save_npy_dir_as_knpy(npy_dst_dir, knpy_dst_dir)
 
 if(__name__ == "__main__"):
     # from step0_disk_index import render_out_dir
@@ -31,4 +31,4 @@ if(__name__ == "__main__"):
     #     uv_exr_ord_dir  = f"J:/swat3D/uv/{i}"
     #     Save_exr_as_npy2(uv_exr_ord_dir, uv_npy_dst_dir)
     #     print("one dir Save_exr_as_npy2 cost time:", time.time() - start_time)
-    Save_npy_as_knpy(uv_npy_dst_dir, uv_knpy_dst_dir, core_amount=30)
+    Save_npy_dir_as_knpy(uv_npy_dst_dir, uv_knpy_dst_dir, core_amount=30)

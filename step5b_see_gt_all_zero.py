@@ -15,7 +15,7 @@ sys.path.append(kong_model2_dir)
 #############################################################################################################################################################################################################
 sys.path.append(kong_model2_dir + "/kong_util")
 #############################################################################################################################################################################################################
-from build_dataset_combine import  Save_npy_as_knpy, Check_dir_exist_and_build
+from build_dataset_combine import  Save_npy_dir_as_knpy, Check_dir_exist_and_build
 import numpy as np
 
 def save_all_zero_gt_flow(datasets_dir, gt_size, ch=3, repeat=1, comment="see_gt_is_real_photo_has_no_gt_flow"):
@@ -23,7 +23,7 @@ def save_all_zero_gt_flow(datasets_dir, gt_size, ch=3, repeat=1, comment="see_gt
     all_zero = np.zeros(shape=(gt_size, gt_size, ch), dtype=np.float32)
     for i in range(repeat):
         np.save(datasets_dir + "/" + f"0_{comment}(all_zero_size{gt_size})_{i + 1}", all_zero)
-        Save_npy_as_knpy(datasets_dir, datasets_dir)
+        Save_npy_dir_as_knpy(datasets_dir, datasets_dir)
 
 ###################################################
 # save_all_zero_gt_flow(datasets_dir = "J:/kong_render_os_book_no_bg_768/datasets/blender_os_hw768/see",        gt_size=512, ch=3, repeat= 4, comment="see_gt_is_real_photo_has_no_gt_flow")
