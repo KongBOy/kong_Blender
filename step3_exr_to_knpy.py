@@ -24,10 +24,10 @@ if(__name__ == "__main__"):
     '''exr -> npy -> add_M -> knpy'''
     wc_name = "2_wc"
     wc_exr_ord_dir  = f"{render_out_dir}/{wc_name}"
-    wc_npy_dst_dir  = f"{render_out_dir}/{wc_name}_npy"  ### exr   -> npy
-    wc_w_M_dst_dir  = f"{render_out_dir}/{wc_name}_w_M_npy"  ### npy   -> add_M 
-    wc_knpy_dst_dir = f"{render_out_dir}/{wc_name}_knpy" ### add_M -> knpy
-    # Save_exr_as_npy2(wc_exr_ord_dir, wc_npy_dst_dir)  ### exr -> npy
+    wc_npy_dst_dir  = f"{render_out_dir}/{wc_name}_npy"      ### exr   -> npy
+    wc_w_M_dst_dir  = f"{render_out_dir}/{wc_name}_w_M_npy"  ### npy   -> add_M
+    wc_knpy_dst_dir = f"{render_out_dir}/{wc_name}_knpy"     ### add_M -> knpy
+    # Save_exr_as_npy2(wc_exr_ord_dir, wc_npy_dst_dir)       ### exr   -> npy
 
     Check_dir_exist_and_build(wc_w_M_dst_dir)
     for uv_filename, wc_filename in tqdm(zip( os.listdir(uv_npy_dst_dir), os.listdir(wc_npy_dst_dir) ) ):

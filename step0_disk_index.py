@@ -5,7 +5,8 @@
 # Working_disk_index = "H"  ### HP820G1
 # Working_disk_index = "D"  ### 127.35 2021/09/15
 # Working_disk_index = "H"  ### 127.23 2021/11/17
-Working_disk_index = "K"  ### 127.23 2021/11/26
+# Working_disk_index = "K"  ### 127.23 2021/11/26
+Working_disk_index = "J"  ### 127.23 2022/01/28
 
 '''
 設定 Render 到 2T Doc3D 硬碟 內 哪個資料夾
