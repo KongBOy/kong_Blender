@@ -19,14 +19,18 @@ from kong_util.util import get_dir_npys
 from step0_disk_index import render_out_dir
 
 render_out_uv_npy_dir = f"{render_out_dir}/1_uv_npy"
-render_out_wc_npy_dir = f"{render_out_dir}/2_wc_npy"
+render_out_wc_npy_dir = f"{render_out_dir}/2_wc_w_M_npy"
 ''' 注意！ 要把Mask 排除在外 來看 max 才是準的， 因為 Mask 的 max 一定是一， 這樣就看不到 data 的 max 了！'''
 uvs = get_dir_npys(render_out_uv_npy_dir)
-print(uvs[:, :, :, 1:].max())
-print(uvs[:, :, :, 1:].min())
-print(uvs[:, :, :, 1:].shape)
-# wcs = get_dir_npys(render_out_wc_npy_dir)
-# print(wcs[:, :, :, :3].max())
-# print(wcs[:, :, :, :3].min())
-# print(wcs[:, :, :, :3].dtype)
-# print(wcs[:, :, :, :3].shape)
+C = uvs[:, :, :, 1:3]
+M  = uvs[:, :, :, 0:1]
+Cy = uvs[:, :, :, 1:2]  ### 0.0 ~ 0.9980217
+Cx = uvs[:, :, :, 2:3]  ### 0.0 ~ 0.9757899
+
+#############################################################
+WM = get_dir_npys(render_out_wc_npy_dir)
+W  = WM[:, :, :, :3]   ### -0.13539262 ~ 0.1357405
+Wz = WM[:, :, :, 0:1]  ###  0.0        ~ 0.039187048
+Wy = WM[:, :, :, 1:2]  ### -0.13532962 ~ 0.1357405
+Wx = WM[:, :, :, 2:3]  ### -0.08075158 ~ 0.07755918
+M  = WM[:, :, :, 3:4]
