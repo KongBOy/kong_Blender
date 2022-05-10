@@ -9,7 +9,7 @@ back_to_kong_layer_amount = curr_layer - kong_layer        ### 看 目前執行p
 for _ in range(back_to_kong_layer_amount): os.chdir("..")  ### 看差幾層 往前跳 幾次dir
 sys.path.append("./kong_util")                                       ### 把 kong_model2/kong_util 加進 sys.path
 
-from build_dataset_combine import build_datasets
+from kong_util.build_dataset_combine import build_datasets
 
 #####################################################################################################################################################
 ### blender_os_hw512

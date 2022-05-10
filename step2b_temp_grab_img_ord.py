@@ -2,7 +2,7 @@ import sys
 sys.path.append(".")
 sys.path.append("../kong_util")
 
-from blender_util import get_dir_blends_and_extract_texture_image_file_name
+from kong_util.blender_util import get_dir_blends_and_extract_texture_image_file_name
 
 if(__name__ == "__main__"):
     '''
