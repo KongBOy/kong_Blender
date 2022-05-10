@@ -6,7 +6,8 @@
 # Working_disk_index = "D"  ### 127.35 2021/09/15
 # Working_disk_index = "H"  ### 127.23 2021/11/17
 # Working_disk_index = "K"  ### 127.23 2021/11/26
-Working_disk_index = "J"  ### 127.23 2022/01/28
+# Working_disk_index = "J"  ### 127.23 2022/01/28
+Working_disk_index = "C"  ### 127.23 2022/02/25
 
 '''
 設定 Render 到 2T Doc3D 硬碟 內 哪個資料夾
@@ -19,6 +20,7 @@ Working_disk_index = "J"  ### 127.23 2022/01/28
 # render_name = "kong_render_os_book_and_paper_all_have_bg_512"              ### os_book + paper 頁面， 全部都有背景， 有拿來train
 # render_name = "kong_render_os_book_and_paper_all_have_dtd_bg_512"          ### os_book + paper 頁面， 全部都有背景， 有拿來train
 # render_name = "kong_render_try_image_ord_dir"                              ### os_book + paper 頁面， 全部都有背景， 有拿來train
-render_name = "kong_render_os_book_and_paper_all_have_dtd_hdr_mix_bg_512"  ### os_book + paper 頁面， 全部都有背景， 有拿來train
+# render_name = "kong_render_os_book_and_paper_all_have_dtd_hdr_mix_bg_512"  ### os_book + paper 頁面， 全部都有背景， 有拿來train
+render_name = "Users/CVML/Desktop/see001_manually/kong_render_os_book_and_paper_all_have_dtd_hdr_mix_bg_512"  ### os_book + paper 頁面， 全部都有背景， 有拿來train
 
 render_out_dir = f"{Working_disk_index}:/{render_name}"
