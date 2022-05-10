@@ -239,7 +239,7 @@ def step5_render_pass(out_path, save_blend=False):
     out_node = render_nodes.new('CompositorNodeOutputFile')         ### 建立 File_Output_node
     out_node.base_path = out_path                                   ### 指定 輸出資料夾
     ##### image方面
-    out_node.file_slots[0].path = "0_image-"                         ### 指定 "image" 的輸出檔名
+    out_node.file_slots[0].path = "0_dis_img-"                         ### 指定 "image" 的輸出檔名
     out_node.format.file_format = 'PNG'                             ### 指定 PNG (這是base格式)
     render_links.new(render_layers_image_and_uv_node.outputs["Image"], out_node.inputs["Image"])  ### "image_and_uv"_RenderLayer_node 的 Image -> File_Output_node 的 Image(這Image是預設的，內部操作無法改名，但顯示上 和 實際輸出 其實都是 0_image囉！)
     ##### uv方面

@@ -14,7 +14,7 @@ from kong_util.build_dataset_combine import build_datasets
 #####################################################################################################################################################
 ### blender_os_hw512
 # db_name = "blender_os_hw512_have_bg"
-# build_datasets(src_in_dir   = "J:/kong_render_os_book_all_have_bg_512/0_image",
+# build_datasets(src_in_dir   = "J:/kong_render_os_book_all_have_bg_512/0_dis_img",
 #                src_gt_dir   = "J:/kong_render_os_book_all_have_bg_512/1_uv_knpy",
 #                src_in_word  = ".png",
 #                src_gt_word  = ".knpy",
@@ -23,12 +23,12 @@ from kong_util.build_dataset_combine import build_datasets
 #                db_in_name   = "dis_imgs",
 #                db_gt_name   = "flows",
 #                train_amount = 900,
-#                src_rec_hope_dir="J:/kong_render_os_book_all_have_bg_512/0_image_ord",
+#                src_rec_hope_dir="J:/kong_render_os_book_all_have_bg_512/0_rec_hope",
 #                src_rec_hope_word=".jpg")
 #########################################################################################
 # ### blender_os_hw512
 # db_name = "blender_os_and_paper_hw512_have_bg"
-# build_datasets(src_in_dir   = "J:/kong_render_os_book_and_paper_all_have_bg_512/0_image",
+# build_datasets(src_in_dir   = "J:/kong_render_os_book_and_paper_all_have_bg_512/0_dis_img",
 #                src_gt_dir   = "J:/kong_render_os_book_and_paper_all_have_bg_512/1_uv_knpy",
 #                src_in_word  = ".png",
 #                src_gt_word  = ".knpy",
@@ -37,12 +37,12 @@ from kong_util.build_dataset_combine import build_datasets
 #                db_in_name   = "dis_imgs",
 #                db_gt_name   = "flows",
 #                train_amount = 900,
-#                src_rec_hope_dir="J:/kong_render_os_book_and_paper_all_have_bg_512/0_image_ord",
+#                src_rec_hope_dir="J:/kong_render_os_book_and_paper_all_have_bg_512/0_rec_hope",
 #                src_rec_hope_word=".jpg")
 #########################################################################################
 ### blender_os_hw512
 # db_name = "blender_os_and_paper_hw512_have_dtd_bg"
-# build_datasets(src_in_dir   = "J:/kong_render_os_book_and_paper_all_have_dtd_bg_512/0_image",
+# build_datasets(src_in_dir   = "J:/kong_render_os_book_and_paper_all_have_dtd_bg_512/0_dis_img",
 #                src_gt_dir   = "J:/kong_render_os_book_and_paper_all_have_dtd_bg_512/1_uv_knpy",
 #                src_in_word  = ".png",
 #                src_gt_word  = ".knpy",
@@ -51,7 +51,7 @@ from kong_util.build_dataset_combine import build_datasets
 #                db_in_name   = "dis_imgs",
 #                db_gt_name   = "flows",
 #                train_amount = 900,
-#                src_rec_hope_dir="J:/kong_render_os_book_and_paper_all_have_dtd_bg_512/0_image_ord",
+#                src_rec_hope_dir="J:/kong_render_os_book_and_paper_all_have_dtd_bg_512/0_rec_hope",
 #                src_rec_hope_word=".jpg")
 #########################################################################################
 ### blender_os_hw512
@@ -60,7 +60,7 @@ from step0_disk_index import render_out_dir, render_name
 # db_out_disk = "J"
 # db_name = "blender_os_and_paper_hw512_have_dtd_hdr_bg"
 # db_out_dir =  f"{db_out_disk}:/{render_name}/{db_name}"
-# build_datasets(src_in_dir   = f"{render_out_dir}/0_image",
+# build_datasets(src_in_dir   = f"{render_out_dir}/0_dis_img",
 #                src_gt_dir   = f"{render_out_dir}/1_uv_knpy",
 #                src_in_word  = ".png",
 #                src_gt_word  = ".knpy",
@@ -69,13 +69,13 @@ from step0_disk_index import render_out_dir, render_name
 #                db_in_name   = "dis_imgs",
 #                db_gt_name   = "flows",
 #                train_amount = 900,
-#                src_rec_hope_dir=f"{render_out_dir}/0_image_ord",
+#                src_rec_hope_dir=f"{render_out_dir}/0_rec_hope",
 #                src_rec_hope_word=".jpg")
 
 # db_out_disk = "K"
 # db_name = "os_and_paper_hw512_dtd_hdr_bg_I_to_W_no_M"
 # db_out_dir =  f"{db_out_disk}:/{render_name}/{db_name}"
-# build_datasets(src_in_dir   = f"{render_out_dir}/0_image",
+# build_datasets(src_in_dir   = f"{render_out_dir}/0_dis_img",
 #                src_gt_dir   = f"{render_out_dir}/2_wc_knpy",
 #                src_in_word  = ".png",
 #                src_gt_word  = ".knpy",
@@ -84,13 +84,13 @@ from step0_disk_index import render_out_dir, render_name
 #                db_in_name   = "dis_imgs",
 #                db_gt_name   = "wcs",
 #                train_amount = 900,
-#                src_rec_hope_dir=f"{render_out_dir}/0_image_ord",
+#                src_rec_hope_dir=f"{render_out_dir}/0_rec_hope",
 #                src_rec_hope_word=".jpg")
 
 db_out_disk = "K"
 db_name = "os_and_paper_hw512_dtd_hdr_bg_I_to_W_w_M"
 db_out_dir =  f"{db_out_disk}:/{render_name}/{db_name}"
-build_datasets(src_in_dir   = f"{render_out_dir}/0_image",
+build_datasets(src_in_dir   = f"{render_out_dir}/0_dis_img",
                src_gt_dir   = f"{render_out_dir}/2_wc_w_M_knpy",
                src_in_word  = ".png",
                src_gt_word  = ".knpy",
@@ -99,5 +99,5 @@ build_datasets(src_in_dir   = f"{render_out_dir}/0_image",
                db_in_name   = "dis_imgs",
                db_gt_name   = "wcs",
                train_amount = 900,
-               src_rec_hope_dir=f"{render_out_dir}/0_image_ord",
+               src_rec_hope_dir=f"{render_out_dir}/0_rec_hope",
                src_rec_hope_word=".jpg")

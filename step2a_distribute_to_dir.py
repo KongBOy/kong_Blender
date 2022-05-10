@@ -24,7 +24,7 @@ uv_ord_dir        = render_out_dir
 uv_visual_ord_dir = render_out_dir
 wc_ord_dir        = render_out_dir
 wc_visual_ord_dir = render_out_dir
-image_dst_dir     = render_out_dir + "/" + "0_image"
+image_dst_dir     = render_out_dir + "/" + "0_dis_img"
 uv_dst_dir        = render_out_dir + "/" + "1_uv"
 uv_visual_dst_dir = render_out_dir + "/" + "1_uv_visual"
 wc_dst_dir        = render_out_dir + "/" + "2_wc"
@@ -41,7 +41,7 @@ def grab_ord_dir_certain_file_to_dst_dir(ord_dir, certain_word, certain_ext, dst
         if(print_msg): print(ord_path, "->", dst_path, "finish~")
 
 def blender_render_result_split_to_dir(render_out_dir):
-    grab_ord_dir_certain_file_to_dst_dir(ord_dir=image_ord_dir,     certain_word="0_image",    certain_ext=".png", dst_dir=image_dst_dir,     print_msg=True)
+    grab_ord_dir_certain_file_to_dst_dir(ord_dir=image_ord_dir,     certain_word="0_dis_img",    certain_ext=".png", dst_dir=image_dst_dir,     print_msg=True)
     grab_ord_dir_certain_file_to_dst_dir(ord_dir=uv_ord_dir,        certain_word="1_uv",       certain_ext=".exr", dst_dir=uv_dst_dir,        print_msg=True)
     grab_ord_dir_certain_file_to_dst_dir(ord_dir=uv_visual_ord_dir, certain_word="1_uv_image", certain_ext=".png", dst_dir=uv_visual_dst_dir, print_msg=True)
     grab_ord_dir_certain_file_to_dst_dir(ord_dir=wc_ord_dir,        certain_word="2_wc",       certain_ext=".exr", dst_dir=wc_dst_dir,        print_msg=True)

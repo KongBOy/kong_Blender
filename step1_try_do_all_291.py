@@ -197,10 +197,10 @@ def step4_page_texture_1_image_and_uv_material(mesh_ob, tex_paths, render_out_di
     links.new(texture_node.inputs[0], texturecoord_node.outputs[2])
 
     ### 存一份 現在使用的 texture 到 image_ord, 之後可以當 rec_hope(最期望可以恢復到 這種電子檔 的概念)
-    if(os.path.isdir(f"{render_out_dir}/0_image_ord") is False): os.makedirs(f"{render_out_dir}/0_image_ord", exist_ok=True)
+    if(os.path.isdir(f"{render_out_dir}/0_rec_hope") is False): os.makedirs(f"{render_out_dir}/0_rec_hope", exist_ok=True)
     frame_index = bpy.data.scenes["Scene"].frame_current  ### 抓出目前的 frame_index，給 image_ord 命名當index 用
     tex_name = tex_path.split("/")[-1]  ### 抓出目前的 texture 的 file_name， 給 image_ord 命名用
-    shutil.copy(tex_path, "%s/0_image_ord/%06i-%s" % (render_out_dir, frame_index, tex_name))  ### 複製一份 texture 原圖
+    shutil.copy(tex_path, "%s/0_rec_hope/%06i-%s" % (render_out_dir, frame_index, tex_name))  ### 複製一份 texture 原圖
 
 
 
@@ -254,7 +254,7 @@ def step5_render_pass(render_out_dir, save_blend=False):
     out_node = render_nodes.new('CompositorNodeOutputFile')         ### 建立 File_Output_node
     out_node.base_path = render_out_dir                                   ### 指定 輸出資料夾
     ##### image方面
-    out_node.file_slots[0].path = "0_image-"                         ### 指定 "image" 的輸出檔名
+    out_node.file_slots[0].path = "0_dis_img-"                         ### 指定 "image" 的輸出檔名
     out_node.format.file_format = 'PNG'                             ### 指定 PNG (這是base格式)
     render_links.new(render_layers_image_and_uv_node.outputs["Image"], out_node.inputs["Image"])  ### "image_and_uv"_RenderLayer_node 的 Image -> File_Output_node 的 Image(這Image是預設的，內部操作無法改名，但顯示上 和 實際輸出 其實都是 0_image囉！)
     ##### uv方面
