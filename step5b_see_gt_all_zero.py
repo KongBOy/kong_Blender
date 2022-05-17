@@ -20,14 +20,17 @@ from build_dataset_combine import  Save_npy_dir_as_knpy, Check_dir_exist_and_bui
 import numpy as np
 
 def save_all_zero_gt_flow(datasets_dir, gt_size, ch=3, repeat=1, comment="see_gt_is_real_photo_has_no_gt_flow"):
-    Check_dir_exist_and_build(datasets_dir)
+    dataset_all_0_npy_dir = f"{datasets_dir}/npy"
+    dataset_all_0_knpy_dir = f"{datasets_dir}/knpy"
+    Check_dir_exist_and_build(dataset_all_0_npy_dir)
+    Check_dir_exist_and_build(dataset_all_0_knpy_dir)
     all_zero = np.zeros(shape=(gt_size, gt_size, ch), dtype=np.float32)
-    for i in range(repeat):
-        np.save(datasets_dir + "/" + f"0_{comment}(all_zero_size{gt_size})_{i + 1}", all_zero)
-        Save_npy_dir_as_knpy(datasets_dir, datasets_dir)
+    for i in range(repeat): np.save(dataset_all_0_npy_dir + "/" + f"0_{comment}(all_zero_size{gt_size})_%02i" % (i + 1), all_zero)
+    Save_npy_dir_as_knpy(dataset_all_0_npy_dir, dataset_all_0_knpy_dir)
 
 ###################################################
 # save_all_zero_gt_flow(datasets_dir = "J:/kong_render_os_book_no_bg_768/datasets/blender_os_hw768/see",        gt_size=512, ch=3, repeat= 4, comment="see_gt_is_real_photo_has_no_gt_flow")
 # save_all_zero_gt_flow(datasets_dir = "J:/kong_render_os_book_all_have_bg_512/datasets/blender_os_hw512/see",  gt_size=512, ch=3, repeat= 4, comment="see_gt_is_real_photo_has_no_gt_flow")
 # save_all_zero_gt_flow(datasets_dir = "J:/kong_render_os_book_all_have_bg_512/datasets/blender_os_hw512_have_bg/test", gt_size=512, ch=3, repeat=16, comment="test_gt_use_real_photo_has_no_gt_flow")
-save_all_zero_gt_flow(datasets_dir = "K:/kong_render_os_book_and_paper_all_have_dtd_hdr_mix_bg_512/os_and_paper_hw512_dtd_hdr_mix_bg_I_to_W/os_and_paper_hw512_dtd_hdr_bg_I_to_W", gt_size=512, ch=4, repeat=4, comment="test_gt_use_real_photo_has_no_gt_W")
+# save_all_zero_gt_flow(datasets_dir = "K:/kong_render_os_book_and_paper_all_have_dtd_hdr_mix_bg_512/os_and_paper_hw512_dtd_hdr_mix_bg_I_to_W/os_and_paper_hw512_dtd_hdr_bg_I_to_W", gt_size=512, ch=4, repeat=4, comment="test_gt_use_real_photo_has_no_gt_W")
+save_all_zero_gt_flow(datasets_dir = r"F:\kong_model2\Prepare_dataset\Kong_Crop_p60\Doc3d_size_448_all_0", comment="", gt_size=448, ch=3, repeat=100)
