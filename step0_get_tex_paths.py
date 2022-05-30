@@ -5,7 +5,7 @@ from step0_disk_index import Working_disk_index
 import sys
 sys.path.append("../kong_util")
 import os
-from util import get_dir_img_paths
+from kong_util.util import get_dir_img_paths
 
 class OS_book:
     def __init__(self):

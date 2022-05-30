@@ -6,7 +6,7 @@ import sys
 sys.path.append("../kong_util")
 import os
 
-from util import get_dir_certain_file_paths
+from kong_util.util import get_dir_certain_file_paths
 
 class DTD:
     def __init__(self):

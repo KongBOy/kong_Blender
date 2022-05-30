@@ -16,7 +16,7 @@ sys.path.append(kong_model2_dir)
 #############################################################################################################################################################################################################
 sys.path.append(kong_model2_dir + "/kong_util")
 #############################################################################################################################################################################################################
-from build_dataset_combine import  Save_npy_dir_as_knpy, Check_dir_exist_and_build
+from kong_util.build_dataset_combine import  Save_npy_dir_as_knpy, Check_dir_exist_and_build
 import numpy as np
 
 def save_all_zero_gt_flow(datasets_dir, gt_size, ch=3, repeat=1, comment="see_gt_is_real_photo_has_no_gt_flow"):
